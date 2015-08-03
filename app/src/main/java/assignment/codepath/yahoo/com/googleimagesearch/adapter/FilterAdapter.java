@@ -150,7 +150,7 @@ public class FilterAdapter extends CustomizedAdapter implements ExpandableListAd
                         red.setChecked(false);
                         blue.setChecked(false);
                     } else {
-                        if (Boolean.valueOf(Storage.read(context, "color", "")).equals("black"))
+                        if (Storage.read(context, "color", "").equals("black"))
                             Storage.write(context, "color", "");
                     }
                 }
@@ -166,7 +166,7 @@ public class FilterAdapter extends CustomizedAdapter implements ExpandableListAd
                         red.setChecked(false);
                         blue.setChecked(false);
                     } else {
-                        if (Boolean.valueOf(Storage.read(context, "color", "")).equals("white"))
+                        if (Storage.read(context, "color", "").equals("white"))
                             Storage.write(context, "color", "");
                     }
                 }
@@ -182,7 +182,7 @@ public class FilterAdapter extends CustomizedAdapter implements ExpandableListAd
                         red.setChecked(false);
                         blue.setChecked(false);
                     } else {
-                        if (Boolean.valueOf(Storage.read(context, "color", "")).equals("green"))
+                        if (Storage.read(context, "color", "").equals("green"))
                             Storage.write(context, "color", "");
                     }
                 }
@@ -198,7 +198,7 @@ public class FilterAdapter extends CustomizedAdapter implements ExpandableListAd
                         green.setChecked(false);
                         blue.setChecked(false);
                     } else {
-                        if (Boolean.valueOf(Storage.read(context, "color", "")).equals("red"))
+                        if (Storage.read(context, "color", "").equals("red"))
                             Storage.write(context, "color", "");
                     }
                 }
@@ -215,7 +215,7 @@ public class FilterAdapter extends CustomizedAdapter implements ExpandableListAd
                         green.setChecked(false);
                         red.setChecked(false);
                     } else {
-                        if (Boolean.valueOf(Storage.read(context, "color", "")).equals("blue"))
+                        if (Storage.read(context, "color", "").equals("blue"))
                             Storage.write(context, "color", "");
                     }
 
