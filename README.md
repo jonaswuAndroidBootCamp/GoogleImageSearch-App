@@ -53,16 +53,16 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+In previous assignment I use [ActionBarSherLock](http://actionbarsherlock.com/), and for week2 assignment I try to use Google official ActionBar library [AppCompat](https://developer.android.com/intl/ko/tools/support-library/features.html#v7-appcompat). Here is an discussion session about *ActionBarSherLock* vs. *AppCompat* on StackOverflow.
 
 ## Open-source libraries used
 
-- [Android Async HTTP](https://github.com/loopj/android-async-http) - Simple asynchronous HTTP requests with JSON parsing
 - [Picasso](http://square.github.io/picasso/) - Image loading and caching library for Android
+- [EventBus](http://greenrobot.github.io/EventBus/) - async event bus for message exchange for any component with unify interface
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright 2015 Jonas Wu
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
