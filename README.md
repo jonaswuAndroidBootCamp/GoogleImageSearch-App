@@ -57,8 +57,8 @@ In previous assignment I use [ActionBarSherLock](http://actionbarsherlock.com/),
 
 ## Open-source libraries used
 
-- [Android Async HTTP](https://github.com/loopj/android-async-http) - Simple asynchronous HTTP requests with JSON parsing
 - [Picasso](http://square.github.io/picasso/) - Image loading and caching library for Android
+- [EventBus](http://greenrobot.github.io/EventBus/) - async event bus for message exchange for any component with unify interface
 
 ## License
 
