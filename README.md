@@ -62,7 +62,7 @@ In previous assignment I use [ActionBarSherLock](http://actionbarsherlock.com/),
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright 2015 Jonas Wu
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
