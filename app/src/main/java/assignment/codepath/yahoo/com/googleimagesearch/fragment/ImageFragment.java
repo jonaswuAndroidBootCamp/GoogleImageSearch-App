@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import assignment.codepath.yahoo.com.googleimagesearch.R;
+import assignment.codepath.yahoo.com.googleimagesearch.helpers.Utils;
 import assignment.codepath.yahoo.com.googleimagesearch.view.TouchImageView;
 
 public class ImageFragment extends DialogFragment {
@@ -44,10 +45,18 @@ public class ImageFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         View view = inflater.inflate(R.layout.image_detail, container);
-        JSONObject data = getObject();
+        final JSONObject data = getObject();
         final TouchImageView largeImage = (TouchImageView) view.findViewById(R.id.large_image);
+
+        largeImage.setDrawingCacheEnabled(true);
+        largeImage.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        largeImage.layout(0, 0, largeImage.getMeasuredWidth(), largeImage.getMeasuredHeight());
+        largeImage.buildDrawingCache(true);
+
         ImageView zoomin = (ImageView) view.findViewById(R.id.zoomin);
         ImageView zoomout = (ImageView) view.findViewById(R.id.zoomout);
+        ImageView email = (ImageView) view.findViewById(R.id.email);
         TextView size = (TextView) view.findViewById(R.id.size);
         TextView title = (TextView) view.findViewById(R.id.title);
         TextView description = (TextView) view.findViewById(R.id.description);
@@ -57,6 +66,17 @@ public class ImageFragment extends DialogFragment {
             size.setText(data.get("width") + " x " + data.get("height"));
             title.setText(Html.fromHtml(data.getString("title")));
             description.setText(data.getString("contentNoFormatting"));
+
+            email.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        Utils.sendMailWithImageViewAsAttachment(getActivity(), largeImage, "./tmpImage", data.getString("url"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
             domain.setText(data.getString("visibleUrl"));
             zoomin.setOnClickListener(new View.OnClickListener() {
                 @Override

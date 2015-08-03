@@ -68,7 +68,6 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                Log.e("totalItemsCount", String.valueOf(totalItemsCount));
                 HashMap<String, Object> queryParams = new HashMap<String, Object>();
                 queryParams.put("start", totalItemsCount);
                 getEventBus().post(new TriggerAPIWithQueryParams(queryParams));
@@ -82,7 +81,6 @@ public class MainActivity extends BaseActivity {
                 showImageDetail(data);
             }
         });
-
 
     }
 
