@@ -53,7 +53,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+In previous assignment I use [ActionBarSherLock](http://actionbarsherlock.com/), and for week2 assignment I try to use Google official ActionBar library [AppCompat](https://developer.android.com/intl/ko/tools/support-library/features.html#v7-appcompat). Here is an discussion session about *ActionBarSherLock* vs. *AppCompat* on StackOverflow.
 
 ## Open-source libraries used
 
