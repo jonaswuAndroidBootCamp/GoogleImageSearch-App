@@ -7,20 +7,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
-import org.json.JSONObject;
-
 import java.util.HashMap;
 
 import assignment.codepath.yahoo.com.googleimagesearch.R;
+import assignment.codepath.yahoo.com.googleimagesearch.activity.BaseActivity;
 import assignment.codepath.yahoo.com.googleimagesearch.activity.MainActivity;
 import assignment.codepath.yahoo.com.googleimagesearch.adapter.FilterAdapter;
-import assignment.codepath.yahoo.com.googleimagesearch.helpers.BaseActivity;
 
 /**
  * Created by jonaswu on 2015/8/2.
@@ -39,34 +36,12 @@ public class FilterDialogFragment extends DialogFragment {
 
     private BaseActivity context;
 
-    public JSONObject getSizeFilter() {
-        return sizeFilter;
-    }
-
-    public void setSizeFilter(JSONObject sizeFilter) {
-        this.sizeFilter = sizeFilter;
-    }
-
-
-    public JSONObject getColorFilter() {
-        return colorFilter;
-    }
-
-    public void setColorFilter(JSONObject colorFilter) {
-        this.colorFilter = colorFilter;
-    }
-
-    private JSONObject sizeFilter;
-    private JSONObject colorFilter;
-
     public FilterDialogFragment() {
         // Empty constructor required for DialogFragment
     }
 
-    public static FilterDialogFragment newInstance(BaseActivity context, JSONObject sizeFilter, JSONObject colorFilter) {
+    public static FilterDialogFragment newInstance(BaseActivity context) {
         FilterDialogFragment frag = new FilterDialogFragment();
-        frag.setSizeFilter(sizeFilter);
-        frag.setColorFilter(colorFilter);
         frag.setContext(context);
         return frag;
     }
@@ -82,10 +57,6 @@ public class FilterDialogFragment extends DialogFragment {
         ExpandableListView eplv = (ExpandableListView) view.findViewById(R.id.eplv);
         final FilterAdapter filterAdapter = new FilterAdapter(context);
 
-        // set filter
-        filterAdapter.setSizeFilter(getSizeFilter());
-        filterAdapter.setColorFilter(getColorFilter());
-        //
         eplv.setAdapter((ExpandableListAdapter) filterAdapter);
 
         for (int i = 0; i < filterAdapter.getGroupCount(); i++) // expand all by default

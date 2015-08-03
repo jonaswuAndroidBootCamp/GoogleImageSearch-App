@@ -1,4 +1,4 @@
-package assignment.codepath.yahoo.com.googleimagesearch.helpers;
+package assignment.codepath.yahoo.com.googleimagesearch.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;

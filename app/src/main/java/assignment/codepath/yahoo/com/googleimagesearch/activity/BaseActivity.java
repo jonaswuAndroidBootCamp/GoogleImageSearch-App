@@ -1,4 +1,4 @@
-package assignment.codepath.yahoo.com.googleimagesearch.helpers;
+package assignment.codepath.yahoo.com.googleimagesearch.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -11,14 +11,14 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by jonaswu on 2015/7/28.
  */
-public abstract class BaseFragmentActivity extends ActionBarActivity implements API.APIDelegator, API.DataHandler {
+public abstract class BaseActivity extends ActionBarActivity implements API.APIDelegator, API.DataHandler {
 
     private EventBus eventBus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         eventBus = new EventBus();
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         super.onCreate(savedInstanceState);
     }
 

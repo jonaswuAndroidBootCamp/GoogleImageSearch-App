@@ -11,8 +11,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.apache.commons.lang.StringUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,27 +36,23 @@ public class Utils {
         return dp;
     }
 
-    public static String getImagzStringParamsOfGoogleImageAPI(JSONObject sizeFilter) {
+    public static String getImagzStringParamsOfGoogleImageAPIFromSharedPref(Context context) {
         String res = "";
-        try {
-            ArrayList<String> sizeFilterArray = new ArrayList<String>();
-            if (sizeFilter.getBoolean("isSmall") == true) {
-                sizeFilterArray.add("small");
-            }
-            if (sizeFilter.getBoolean("isMedium") == true) {
-                sizeFilterArray.add("medium");
-            }
-            if (sizeFilter.getBoolean("isLarge") == true) {
-                sizeFilterArray.add("large");
-            }
-            if (sizeFilter.getBoolean("isExtremeLarge") == true) {
-                sizeFilterArray.add("xlarge");
-            }
-            res = StringUtils.join(sizeFilterArray.toArray(), "|");
-        } catch (JSONException e) {
-            e.printStackTrace();
+        ArrayList<String> sizeFilterArray = new ArrayList<String>();
+        if (Boolean.valueOf(Storage.read(context, "isSmall", "false")) == true) {
+            sizeFilterArray.add("small");
         }
-        Log.e("getImagzStringParamsOfGoogleImageAPI", res);
+        if (Boolean.valueOf(Storage.read(context, "isMedium", "false"))) {
+            sizeFilterArray.add("medium");
+        }
+        if (Boolean.valueOf(Storage.read(context, "isLarge", "false"))) {
+            sizeFilterArray.add("large");
+        }
+        if (Boolean.valueOf(Storage.read(context, "isExtremeLarge", "false"))) {
+            sizeFilterArray.add("xlarge");
+        }
+        res = StringUtils.join(sizeFilterArray.toArray(), "|");
+        Log.e("getImagzStringParamsOfGoogleImageAPIFromSharedPref", res);
         return res;
     }
 

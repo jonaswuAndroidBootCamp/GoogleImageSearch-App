@@ -24,8 +24,8 @@ import assignment.codepath.yahoo.com.googleimagesearch.R;
 import assignment.codepath.yahoo.com.googleimagesearch.adapter.GridViewAdapter;
 import assignment.codepath.yahoo.com.googleimagesearch.fragment.FilterDialogFragment;
 import assignment.codepath.yahoo.com.googleimagesearch.fragment.ImageFragment;
-import assignment.codepath.yahoo.com.googleimagesearch.helpers.BaseActivity;
 import assignment.codepath.yahoo.com.googleimagesearch.helpers.EndlessScrollListener;
+import assignment.codepath.yahoo.com.googleimagesearch.helpers.Storage;
 import assignment.codepath.yahoo.com.googleimagesearch.helpers.Utils;
 import assignment.codepath.yahoo.com.googleimagesearch.network.API;
 
@@ -33,8 +33,6 @@ import assignment.codepath.yahoo.com.googleimagesearch.network.API;
 public class MainActivity extends BaseActivity {
 
     private GridViewAdapter gridViewAdapter;
-    private JSONObject sizeFilter;
-    private JSONObject colorFilter;
 
     public void setCurrentQueryString(String currentQueryString) {
         this.currentQueryString = currentQueryString;
@@ -103,37 +101,28 @@ public class MainActivity extends BaseActivity {
     }
 
     public void onEventMainThread(TriggerAPIWithQueryParams triggerAPIWithQueryParams) {
-        if (sizeFilter == null) {
-            sizeFilter = new JSONObject();
-            try {
-                sizeFilter.put("icon", R.drawable.size);
-                sizeFilter.put("name", "Size");
-                sizeFilter.put("isSmall", false);
-                sizeFilter.put("isMedium", false);
-                sizeFilter.put("isLarge", false);
-                sizeFilter.put("isExtremeLarge", false);
-                sizeFilter.put("childView", R.layout.size_setting);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        String sizeFilter = Storage.read(this, "sizeFilter", "");
+        if (sizeFilter.equals("")) {
+            Storage.write(this, "sizeFilter", "sizeFilter");
+            Storage.write(this, "0_icon", String.valueOf(R.drawable.size));
+            Storage.write(this, "0_name", "Size");
+            Storage.write(this, "isSmall", String.valueOf(false));
+            Storage.write(this, "isMedium", String.valueOf(false));
+            Storage.write(this, "isLarge", String.valueOf(false));
+            Storage.write(this, "isExtremeLarge", String.valueOf(false));
+            Storage.write(this, "childView", String.valueOf(R.layout.size_setting));
         }
-        if (colorFilter == null) {
-            colorFilter = new JSONObject();
-            try {
-                colorFilter.put("icon", R.drawable.color);
-                colorFilter.put("name", "Color");
-                colorFilter.put("color", "");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        String colorFilter = Storage.read(this, "colorFilter", "");
+        if (colorFilter.equals("")) {
+            Storage.write(this, "colorFilter", "colorFilter");
+            Storage.write(this, "1_icon", String.valueOf(R.drawable.color));
+            Storage.write(this, "1_name", "Color");
+            Storage.write(this, "color", "");
         }
         triggerAPIWithQueryParams.queryParams.put("q", getCurrentQueryString());
-        triggerAPIWithQueryParams.queryParams.put("imgsz", Utils.getImagzStringParamsOfGoogleImageAPI(sizeFilter));
-        try {
-            triggerAPIWithQueryParams.queryParams.put("imgcolor", colorFilter.getString("color"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        triggerAPIWithQueryParams.queryParams.put("imgsz", Utils.getImagzStringParamsOfGoogleImageAPIFromSharedPref(this));
+        triggerAPIWithQueryParams.queryParams.put("imgcolor", Storage.read(this, "color", ""));
+
         Log.e("TriggerAPIWithQueryParams", triggerAPIWithQueryParams.queryParams.toString());
         new API().getGoogleImageSearch(MainActivity.this, triggerAPIWithQueryParams.queryParams);
     }
@@ -225,7 +214,7 @@ public class MainActivity extends BaseActivity {
 
     private void showSettingDialog() {
         FragmentManager fm = getSupportFragmentManager();
-        FilterDialogFragment alertDialog = FilterDialogFragment.newInstance(MainActivity.this, sizeFilter, colorFilter);
+        FilterDialogFragment alertDialog = FilterDialogFragment.newInstance(MainActivity.this);
         alertDialog.show(fm, "filter");
     }
 

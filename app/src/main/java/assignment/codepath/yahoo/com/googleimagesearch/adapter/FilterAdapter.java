@@ -1,6 +1,7 @@
 package assignment.codepath.yahoo.com.googleimagesearch.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import assignment.codepath.yahoo.com.googleimagesearch.R;
+import assignment.codepath.yahoo.com.googleimagesearch.helpers.Storage;
 
 /**
  * Created by jonaswu on 2015/8/2.
@@ -49,7 +51,7 @@ public class FilterAdapter extends CustomizedAdapter implements ExpandableListAd
 
     @Override
     public int getGroupCount() {
-        return getCount();
+        return 2;
     }
 
     @Override
@@ -79,15 +81,13 @@ public class FilterAdapter extends CustomizedAdapter implements ExpandableListAd
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        JSONObject data = getItem(groupPosition);
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.expandable_item, parent, false);
-        try {
-            (view.findViewById(R.id.icon)).setBackground(context.getResources().getDrawable(data.getInt("icon")));
-            ((TextView) view.findViewById(R.id.name)).setText(data.getString("name"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        String strGroupPosition = String.valueOf(groupPosition);
+        Log.e("strGroupPosition + _icon", strGroupPosition + "_icon");
+        String icon = Storage.read(context, strGroupPosition + "_icon", "");
+        (view.findViewById(R.id.icon)).setBackground(context.getResources().getDrawable(Integer.valueOf(icon)));
+        ((TextView) view.findViewById(R.id.name)).setText(Storage.read(context, strGroupPosition + "_name", ""));
         return view;
     }
 
@@ -95,7 +95,6 @@ public class FilterAdapter extends CustomizedAdapter implements ExpandableListAd
     public View getChildView(final int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         View view = null;
         if (groupPosition == 0) { // size setting
-            final JSONObject sizeFilter = getSizeFilter();
             LayoutInflater inflater = LayoutInflater.from(context);
             view = inflater.inflate(R.layout.size_setting, parent, false);
             CheckBox small = (CheckBox) view.findViewById(R.id.small);
@@ -103,56 +102,35 @@ public class FilterAdapter extends CustomizedAdapter implements ExpandableListAd
             small.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    try {
-                        sizeFilter.put("isSmall", isChecked);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    Storage.write(context, "isSmall", String.valueOf(isChecked));
                 }
             });
             CheckBox medium = (CheckBox) view.findViewById(R.id.medium);
             medium.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    try {
-                        sizeFilter.put("isMedium", isChecked);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    Storage.write(context, "isMedium", String.valueOf(isChecked));
                 }
             });
             CheckBox large = (CheckBox) view.findViewById(R.id.large);
             large.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    try {
-                        sizeFilter.put("isLarge", isChecked);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    Storage.write(context, "isLarge", String.valueOf(isChecked));
                 }
             });
             CheckBox extra_large = (CheckBox) view.findViewById(R.id.extra_large);
             extra_large.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    try {
-                        sizeFilter.put("isExtremeLarge", isChecked);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    Storage.write(context, "isExtremeLarge", String.valueOf(isChecked));
                 }
             });
-            try {
-                small.setChecked(sizeFilter.getBoolean("isSmall"));
-                medium.setChecked(sizeFilter.getBoolean("isMedium"));
-                large.setChecked(sizeFilter.getBoolean("isLarge"));
-                extra_large.setChecked(sizeFilter.getBoolean("isExtremeLarge"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            small.setChecked(Boolean.valueOf(Storage.read(context, "isSmall", "false")));
+            medium.setChecked(Boolean.valueOf(Storage.read(context, "isMedium", "false")));
+            large.setChecked(Boolean.valueOf(Storage.read(context, "isLarge", "false")));
+            extra_large.setChecked(Boolean.valueOf(Storage.read(context, "isExtremeLarge", "false")));
         } else if (groupPosition == 1) {
-            final JSONObject colorFilter = getColorFilter();
             LayoutInflater inflater = LayoutInflater.from(context);
             view = inflater.inflate(R.layout.color_setting, parent, false);
 
@@ -165,19 +143,15 @@ public class FilterAdapter extends CustomizedAdapter implements ExpandableListAd
             black.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    try {
-                        if (isChecked) {
-                            colorFilter.put("color", "black");
-                            white.setChecked(false);
-                            green.setChecked(false);
-                            red.setChecked(false);
-                            blue.setChecked(false);
-                        } else {
-                            if (colorFilter.getString("color").equals("black"))
-                                colorFilter.put("color", "");
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    if (isChecked) {
+                        Storage.write(context, "color", "black");
+                        white.setChecked(false);
+                        green.setChecked(false);
+                        red.setChecked(false);
+                        blue.setChecked(false);
+                    } else {
+                        if (Boolean.valueOf(Storage.read(context, "color", "")).equals("black"))
+                            Storage.write(context, "color", "");
                     }
                 }
             });
@@ -185,19 +159,15 @@ public class FilterAdapter extends CustomizedAdapter implements ExpandableListAd
             white.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    try {
-                        if (isChecked) {
-                            colorFilter.put("color", "white");
-                            black.setChecked(false);
-                            green.setChecked(false);
-                            red.setChecked(false);
-                            blue.setChecked(false);
-                        } else {
-                            if (colorFilter.getString("color").equals("white"))
-                                colorFilter.put("color", "");
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    if (isChecked) {
+                        Storage.write(context, "color", "white");
+                        black.setChecked(false);
+                        green.setChecked(false);
+                        red.setChecked(false);
+                        blue.setChecked(false);
+                    } else {
+                        if (Boolean.valueOf(Storage.read(context, "color", "")).equals("white"))
+                            Storage.write(context, "color", "");
                     }
                 }
             });
@@ -205,19 +175,15 @@ public class FilterAdapter extends CustomizedAdapter implements ExpandableListAd
             green.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    try {
-                        if (isChecked) {
-                            colorFilter.put("color", "green");
-                            white.setChecked(false);
-                            black.setChecked(false);
-                            red.setChecked(false);
-                            blue.setChecked(false);
-                        } else {
-                            if (colorFilter.getString("color").equals("green"))
-                                colorFilter.put("color", "");
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    if (isChecked) {
+                        Storage.write(context, "color", "green");
+                        white.setChecked(false);
+                        black.setChecked(false);
+                        red.setChecked(false);
+                        blue.setChecked(false);
+                    } else {
+                        if (Boolean.valueOf(Storage.read(context, "color", "")).equals("green"))
+                            Storage.write(context, "color", "");
                     }
                 }
             });
@@ -225,19 +191,15 @@ public class FilterAdapter extends CustomizedAdapter implements ExpandableListAd
             red.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    try {
-                        if (isChecked) {
-                            colorFilter.put("color", "red");
-                            white.setChecked(false);
-                            black.setChecked(false);
-                            green.setChecked(false);
-                            blue.setChecked(false);
-                        } else {
-                            if (colorFilter.getString("color").equals("red"))
-                                colorFilter.put("color", "");
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    if (isChecked) {
+                        Storage.write(context, "color", "red");
+                        white.setChecked(false);
+                        black.setChecked(false);
+                        green.setChecked(false);
+                        blue.setChecked(false);
+                    } else {
+                        if (Boolean.valueOf(Storage.read(context, "color", "")).equals("red"))
+                            Storage.write(context, "color", "");
                     }
                 }
             });
@@ -246,31 +208,24 @@ public class FilterAdapter extends CustomizedAdapter implements ExpandableListAd
             blue.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    try {
-                        if (isChecked) {
-                            colorFilter.put("color", "blue");
-                            white.setChecked(false);
-                            black.setChecked(false);
-                            green.setChecked(false);
-                            red.setChecked(false);
-                        } else {
-                            if (colorFilter.getString("color").equals("blue"))
-                                colorFilter.put("color", "");
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    if (isChecked) {
+                        Storage.write(context, "color", "blue");
+                        white.setChecked(false);
+                        black.setChecked(false);
+                        green.setChecked(false);
+                        red.setChecked(false);
+                    } else {
+                        if (Boolean.valueOf(Storage.read(context, "color", "")).equals("blue"))
+                            Storage.write(context, "color", "");
                     }
+
                 }
             });
-            try {
-                black.setChecked(colorFilter.getString("color") == "black" ? true : false);
-                white.setChecked(colorFilter.getString("color") == "white" ? true : false);
-                green.setChecked(colorFilter.getString("color") == "green" ? true : false);
-                red.setChecked(colorFilter.getString("color") == "red" ? true : false);
-                blue.setChecked(colorFilter.getString("color") == "blue" ? true : false);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            black.setChecked(Storage.read(context, "color", "").equals("black") ? true : false);
+            white.setChecked(Storage.read(context, "color", "").equals("white") ? true : false);
+            green.setChecked(Storage.read(context, "color", "").equals("green") ? true : false);
+            red.setChecked(Storage.read(context, "color", "").equals("red") ? true : false);
+            blue.setChecked(Storage.read(context, "color", "").equals("blue") ? true : false);
         }
         return view;
     }
