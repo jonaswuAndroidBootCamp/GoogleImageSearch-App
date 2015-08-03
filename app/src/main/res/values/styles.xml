@@ -1,0 +1,19 @@
+<resources>
+
+    <style name="Theme.MyTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="actionBarStyle">@style/Widget.MyTheme.ActionBar</item>
+        <item name="android:actionBarStyle">@style/Widget.MyTheme.ActionBar</item>
+    </style>
+
+    <style name="Widget.MyTheme.ActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="android:icon">@drawable/social_yahoo_button_lilac</item>
+        <item name="android:background">#f5f5f5</item>
+        <item name="displayOptions">useLogo|showTitle</item>
+        <item name="icon">@drawable/social_yahoo_button_lilac</item>
+        <item name="titleTextStyle">@style/MyTheme.ActionBar.TitleTextStyle</item>
+    </style>
+
+    <style name="MyTheme.ActionBar.TitleTextStyle" parent="android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">#3c3c3c</item>
+    </style>
+</resources>
