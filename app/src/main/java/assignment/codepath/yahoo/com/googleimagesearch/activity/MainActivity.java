@@ -66,6 +66,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
+                Log.e("test", String.valueOf(totalItemsCount));
                 HashMap<String, Object> queryParams = new HashMap<String, Object>();
                 queryParams.put("start", totalItemsCount);
                 getEventBus().post(new TriggerAPIWithQueryParams(queryParams));
@@ -119,9 +120,18 @@ public class MainActivity extends BaseActivity {
             Storage.write(this, "1_name", "Color");
             Storage.write(this, "color", "");
         }
+
+        String imgtypeFilter = Storage.read(this, "imgtypeFilter", "");
+        if (imgtypeFilter.equals("")) {
+            Storage.write(this, "imgtype", "");
+            Storage.write(this, "2_icon", String.valueOf(R.drawable.imgtype));
+            Storage.write(this, "2_name", "Image Type");
+            Storage.write(this, "imgtypeFilter", "imgtypeFilter");
+        }
         triggerAPIWithQueryParams.queryParams.put("q", getCurrentQueryString());
         triggerAPIWithQueryParams.queryParams.put("imgsz", Utils.getImagzStringParamsOfGoogleImageAPIFromSharedPref(this));
         triggerAPIWithQueryParams.queryParams.put("imgcolor", Storage.read(this, "color", ""));
+        triggerAPIWithQueryParams.queryParams.put("imgtype", Storage.read(this, "imgtype", ""));
 
         Log.e("TriggerAPIWithQueryParams", triggerAPIWithQueryParams.queryParams.toString());
         new API().getGoogleImageSearch(MainActivity.this, triggerAPIWithQueryParams.queryParams);

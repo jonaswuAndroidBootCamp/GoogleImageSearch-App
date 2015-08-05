@@ -22,18 +22,7 @@ import assignment.codepath.yahoo.com.googleimagesearch.helpers.Storage;
 public class FilterAdapter extends CustomizedAdapter implements ExpandableListAdapter {
     public FilterAdapter(Context context) {
         super(context);
-        this.addItem(new JSONObject()); // for size
-        this.addItem(new JSONObject()); // for size
     }
-
-    public void setSizeFilter(JSONObject sizeFilter) {
-        this.setItem(0, sizeFilter);
-    }
-
-    public void setColorFilter(JSONObject colorFilter) {
-        this.setItem(1, colorFilter);
-    }
-
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -51,7 +40,7 @@ public class FilterAdapter extends CustomizedAdapter implements ExpandableListAd
 
     @Override
     public int getGroupCount() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -226,7 +215,79 @@ public class FilterAdapter extends CustomizedAdapter implements ExpandableListAd
             green.setChecked(Storage.read(context, "color", "").equals("green") ? true : false);
             red.setChecked(Storage.read(context, "color", "").equals("red") ? true : false);
             blue.setChecked(Storage.read(context, "color", "").equals("blue") ? true : false);
+        } else if (groupPosition == 2) {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            view = inflater.inflate(R.layout.imgtype_setting, parent, false);
+            final CheckBox face = (CheckBox) view.findViewById(R.id.face);
+            final CheckBox photo = (CheckBox) view.findViewById(R.id.photo);
+            final CheckBox clipart = (CheckBox) view.findViewById(R.id.clipart);
+            final CheckBox lineart = (CheckBox) view.findViewById(R.id.lineart);
+
+            face.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        Storage.write(context, "imgtype", "face");
+                        photo.setChecked(false);
+                        clipart.setChecked(false);
+                        lineart.setChecked(false);
+                    } else {
+                        if (Storage.read(context, "imgtype", "").equals("face"))
+                            Storage.write(context, "imgtype", "");
+                    }
+                }
+            });
+
+            photo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        Storage.write(context, "imgtype", "photo");
+                        face.setChecked(false);
+                        clipart.setChecked(false);
+                        lineart.setChecked(false);
+                    } else {
+                        if (Storage.read(context, "imgtype", "").equals("photo"))
+                            Storage.write(context, "imgtype", "");
+                    }
+                }
+            });
+
+            clipart.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        Storage.write(context, "imgtype", "clipart");
+                        face.setChecked(false);
+                        photo.setChecked(false);
+                        lineart.setChecked(false);
+                    } else {
+                        if (Storage.read(context, "imgtype", "").equals("clipart"))
+                            Storage.write(context, "imgtype", "");
+                    }
+                }
+            });
+
+            lineart.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        Storage.write(context, "imgtype", "lineart");
+                        face.setChecked(false);
+                        photo.setChecked(false);
+                        clipart.setChecked(false);
+                    } else {
+                        if (Storage.read(context, "imgtype", "").equals("lineart"))
+                            Storage.write(context, "imgtype", "");
+                    }
+                }
+            });
+            face.setChecked(Boolean.valueOf(Storage.read(context, "isFace", "false")));
+            photo.setChecked(Boolean.valueOf(Storage.read(context, "isPhoto", "false")));
+            clipart.setChecked(Boolean.valueOf(Storage.read(context, "isClipart", "false")));
+            lineart.setChecked(Boolean.valueOf(Storage.read(context, "isLineart", "false")));
         }
+
         return view;
     }
 
@@ -255,12 +316,4 @@ public class FilterAdapter extends CustomizedAdapter implements ExpandableListAd
         return 0;
     }
 
-
-    public JSONObject getSizeFilter() {
-        return this.getItem(0);
-    }
-
-    public JSONObject getColorFilter() {
-        return this.getItem(1);
-    }
 }
