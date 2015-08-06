@@ -12,25 +12,31 @@ import java.util.ArrayList;
  */
 public abstract class CustomizedAdapter extends BaseAdapter {
 
-    protected ArrayList<JSONObject> listItem = new ArrayList<JSONObject>();
+    protected ArrayList<Object> listItem = new ArrayList<Object>();
     protected Context context;
 
     public CustomizedAdapter(Context context) {
         super();
         this.context = context;
+        initData();
+
     }
 
-    public void setItem(int id, JSONObject value) {
+    public void initData() {
+        // to be override
+    }
+
+    public void setItem(int id, Object value) {
         listItem.set(id, value);
         this.notifyDataSetChanged();
     }
 
-    public void addItem(JSONObject value) {
+    public void addItem(Object value) {
         this.addItemWithoutNotifyChange(value);
         this.notifyDataSetChanged();
     }
 
-    public void addItemWithoutNotifyChange(JSONObject value) {
+    public void addItemWithoutNotifyChange(Object value) {
         listItem.add(value);
     }
 
@@ -51,7 +57,7 @@ public abstract class CustomizedAdapter extends BaseAdapter {
     }
 
     @Override
-    public JSONObject getItem(int position) {
+    public Object getItem(int position) {
         return listItem.get(position);
     }
 

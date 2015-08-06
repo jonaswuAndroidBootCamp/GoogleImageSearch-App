@@ -1,6 +1,7 @@
 package assignment.codepath.yahoo.com.googleimagesearch.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,10 +9,13 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ExpandableListAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import assignment.codepath.yahoo.com.googleimagesearch.R;
 import assignment.codepath.yahoo.com.googleimagesearch.helpers.Storage;
@@ -26,7 +30,7 @@ public class FilterAdapter extends CustomizedAdapter implements ExpandableListAd
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        JSONObject data = getItem(position);
+        JSONObject data = (JSONObject) getItem(position);
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.expandable_item, parent, false);
         try {
@@ -120,102 +124,54 @@ public class FilterAdapter extends CustomizedAdapter implements ExpandableListAd
             large.setChecked(Boolean.valueOf(Storage.read(context, "isLarge", "false")));
             extra_large.setChecked(Boolean.valueOf(Storage.read(context, "isExtremeLarge", "false")));
         } else if (groupPosition == 1) {
-            LayoutInflater inflater = LayoutInflater.from(context);
+            final LayoutInflater inflater = LayoutInflater.from(context);
             view = inflater.inflate(R.layout.color_setting, parent, false);
 
-            final CheckBox black = (CheckBox) view.findViewById(R.id.black);
-            final CheckBox white = (CheckBox) view.findViewById(R.id.white);
-            final CheckBox green = (CheckBox) view.findViewById(R.id.green);
-            final CheckBox red = (CheckBox) view.findViewById(R.id.red);
-            final CheckBox blue = (CheckBox) view.findViewById(R.id.blue);
 
-            black.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            Spinner spinner = (Spinner) view.findViewById(R.id.colorFilter);
+            spinner.setAdapter(new CustomizedAdapter(context) {
+
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        Storage.write(context, "color", "black");
-                        white.setChecked(false);
-                        green.setChecked(false);
-                        red.setChecked(false);
-                        blue.setChecked(false);
-                    } else {
-                        if (Storage.read(context, "color", "").equals("black"))
-                            Storage.write(context, "color", "");
-                    }
-                }
-            });
+                public void initData() {
+                    HashMap<String, Object> data = new HashMap<String, Object>();
+                    data.put("name", "black");
+                    data.put("color", Color.BLACK);
+                    this.addItem(data);
+                    data = new HashMap<String, Object>();
+                    data.put("name", "white");
+                    data.put("color", Color.WHITE);
+                    this.addItem(data);
 
-            white.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        Storage.write(context, "color", "white");
-                        black.setChecked(false);
-                        green.setChecked(false);
-                        red.setChecked(false);
-                        blue.setChecked(false);
-                    } else {
-                        if (Storage.read(context, "color", "").equals("white"))
-                            Storage.write(context, "color", "");
-                    }
-                }
-            });
+                    data = new HashMap<String, Object>();
+                    data.put("name", "green");
+                    data.put("color", context.getResources().getColor(R.color.green));
+                    this.addItem(data);
 
-            green.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        Storage.write(context, "color", "green");
-                        white.setChecked(false);
-                        black.setChecked(false);
-                        red.setChecked(false);
-                        blue.setChecked(false);
-                    } else {
-                        if (Storage.read(context, "color", "").equals("green"))
-                            Storage.write(context, "color", "");
-                    }
-                }
-            });
+                    data = new HashMap<String, Object>();
+                    data.put("name", "red");
+                    data.put("color", context.getResources().getColor(R.color.red));
+                    this.addItem(data);
 
-            red.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        Storage.write(context, "color", "red");
-                        white.setChecked(false);
-                        black.setChecked(false);
-                        green.setChecked(false);
-                        blue.setChecked(false);
-                    } else {
-                        if (Storage.read(context, "color", "").equals("red"))
-                            Storage.write(context, "color", "");
-                    }
-                }
-            });
-
-
-            blue.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        Storage.write(context, "color", "blue");
-                        white.setChecked(false);
-                        black.setChecked(false);
-                        green.setChecked(false);
-                        red.setChecked(false);
-                    } else {
-                        if (Storage.read(context, "color", "").equals("blue"))
-                            Storage.write(context, "color", "");
-                    }
+                    data = new HashMap<String, Object>();
+                    data.put("name", "blue");
+                    data.put("color", context.getResources().getColor(R.color.blue));
+                    this.addItem(data);
 
                 }
+
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    HashMap<String, Object> item = (HashMap<String, Object>) getItem(position);
+                    View view = inflater.inflate(R.layout.colorfilter_spinner_layout, parent, false);
+                    TextView color = (TextView) view.findViewById(R.id.color);
+                    color.setBackgroundColor((int) item.get("color"));
+                    TextView text = (TextView) view.findViewById(R.id.text);
+                    text.setText(item.get("name").toString());
+                    return view;
+                }
             });
-            black.setChecked(Storage.read(context, "color", "").equals("black") ? true : false);
-            white.setChecked(Storage.read(context, "color", "").equals("white") ? true : false);
-            green.setChecked(Storage.read(context, "color", "").equals("green") ? true : false);
-            red.setChecked(Storage.read(context, "color", "").equals("red") ? true : false);
-            blue.setChecked(Storage.read(context, "color", "").equals("blue") ? true : false);
         } else if (groupPosition == 2) {
+
             LayoutInflater inflater = LayoutInflater.from(context);
             view = inflater.inflate(R.layout.imgtype_setting, parent, false);
             final CheckBox face = (CheckBox) view.findViewById(R.id.face);

@@ -76,7 +76,7 @@ public class MainActivity extends BaseActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                JSONObject data = gridViewAdapter.getItem(position);
+                JSONObject data = (JSONObject) gridViewAdapter.getItem(position);
                 showImageDetail(data);
             }
         });
