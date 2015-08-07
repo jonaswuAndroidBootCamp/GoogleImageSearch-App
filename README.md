@@ -48,7 +48,7 @@ Here's a walkthrough of implemented user stories:
 
 Heterogenous Expandable + ViewHolder Pattern demo
 
-<img src='./demo_smoketest.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='./heterogenous.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 Demo for Smoke Test on [Robotium](https://code.google.com/p/robotium/)
 
