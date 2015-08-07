@@ -54,7 +54,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-In previous assignment I use [ActionBarSherLock](http://actionbarsherlock.com/), and for week2 assignment I try to use Google official ActionBar library [AppCompat](https://developer.android.com/intl/ko/tools/support-library/features.html#v7-appcompat). Here is an discussion session about *ActionBarSherLock* vs. *AppCompat* on StackOverflow.
+In previous assignment I use [ActionBarSherLock](http://actionbarsherlock.com/), and for week2 assignment I try to use Google official ActionBar library [AppCompat](https://developer.android.com/intl/ko/tools/support-library/features.html#v7-appcompat). Here is an discussion session about *ActionBarSherLock* vs. *AppCompat* on [StackOverflow](http://stackoverflow.com/questions/7844517/difference-between-actionbarsherlock-and-actionbar-compatibility).
 
 Also, based on previous assignment feedback, try to refactor source code based on **Organize packages by category** guideline, and use ViewHolder pattern to improve gridview performance!
 ## Open-source libraries used
