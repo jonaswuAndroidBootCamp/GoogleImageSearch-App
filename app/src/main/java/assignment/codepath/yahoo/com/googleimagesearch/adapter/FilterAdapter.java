@@ -269,12 +269,14 @@ public class FilterAdapter extends CustomizedAdapter implements ExpandableListAd
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         HashMap<String, Object> item = (HashMap<String, Object>) parent.getAdapter().getItem(position);
                         Storage.write(context, "imgtype", item.get("name").toString());
+                        Storage.write(context, "imgtypeSelected", String.valueOf(position));
                     }
 
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
                         Log.e("onNothingSelected", "onNothingSelected");
                         Storage.write(context, "imgtype", "");
+                        Storage.write(context, "imgtypeSelected", "0");
                     }
                 });
             }
@@ -289,16 +291,11 @@ public class FilterAdapter extends CustomizedAdapter implements ExpandableListAd
             viewHolder.medium.setChecked(Boolean.valueOf(Storage.read(context, "isMedium", "false")));
             viewHolder.large.setChecked(Boolean.valueOf(Storage.read(context, "isLarge", "false")));
             viewHolder.extra_large.setChecked(Boolean.valueOf(Storage.read(context, "isExtremeLarge", "false")));
-        }
-
-        if (groupPosition == 1) {
-            Log.e("read position", Storage.read(context, "colorSelected", "0"));
+        } else if (groupPosition == 1) {
             viewHolder.colorSpinner.setSelection(Integer.valueOf(Storage.read(context, "colorSelected", "0")));
 
-        }
-
-        if (groupPosition == 2) {
-            viewHolder.imgtypeSpinner.setSelection(Integer.valueOf(Storage.read(context, "colorSelected", "0")));
+        } else if (groupPosition == 2) {
+            viewHolder.imgtypeSpinner.setSelection(Integer.valueOf(Storage.read(context, "imgtypeSelected", "0")));
         }
         return convertView;
     }
