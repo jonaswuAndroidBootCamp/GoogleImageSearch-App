@@ -59,8 +59,8 @@ public class FilterDialogFragment extends DialogFragment {
 
         eplv.setAdapter((ExpandableListAdapter) filterAdapter);
 
-        for (int i = 0; i < filterAdapter.getGroupCount(); i++) // expand all by default
-            eplv.expandGroup(i);
+//        for (int i = 0; i < filterAdapter.getGroupCount(); i++) // expand all by default
+//            eplv.expandGroup(i);
 
         alertDialogBuilder.setView(view);
         alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {

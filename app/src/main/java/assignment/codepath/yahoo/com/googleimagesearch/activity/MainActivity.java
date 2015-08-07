@@ -119,6 +119,8 @@ public class MainActivity extends BaseActivity {
             Storage.write(this, "1_icon", String.valueOf(R.drawable.color));
             Storage.write(this, "1_name", "Color");
             Storage.write(this, "color", "");
+            Storage.write(this, "colorSelected", "0");
+
         }
 
         String imgtypeFilter = Storage.read(this, "imgtypeFilter", "");

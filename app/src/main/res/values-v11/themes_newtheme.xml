@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="NewTheme" parent="@style/_NewTheme"/>
+
+  <style name="_NewTheme" parent="Theme.AppCompat.Light">
+
+    <item name="android:editTextBackground">@drawable/newtheme_edit_text_holo_light</item>
+
+    <item name="android:textColorHighlight">#9945869e</item>
+    <item name="android:textSelectHandleLeft">@drawable/newtheme_text_select_handle_left</item>
+    <item name="android:textSelectHandleRight">@drawable/newtheme_text_select_handle_right</item>
+    <item name="android:textSelectHandle">@drawable/newtheme_text_select_handle_middle</item>
+
+    <item name="android:listChoiceIndicatorMultiple">@drawable/newtheme_btn_check_holo_light</item>
+
+    <item name="android:buttonStyle">@style/ButtonNewTheme</item>
+
+    <item name="android:imageButtonStyle">@style/ImageButtonNewTheme</item>
+
+    <item name="android:dropDownSpinnerStyle">@style/SpinnerNewTheme</item>
+
+    <item name="android:fastScrollThumbDrawable">@drawable/newtheme_fastscroll_thumb_holo</item>
+
+  </style>
+
+</resources>
